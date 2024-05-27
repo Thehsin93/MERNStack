@@ -5,7 +5,8 @@ const Workout = require("../models/workout")
 const workout_getall= async(req,res)=>{
     
     try{
-        const workout =await Workout.find({}).sort({createdAt:-1});
+        const userid = req.user._id;
+        const workout =await Workout.find({userid}).sort({createdAt:-1});
         res.status(200).json(workout);
     }
     catch(error){
@@ -40,7 +41,8 @@ const workout_post= async(req,res)=>{
         return res.status(400).json({ error: 'Please fill in all fields', emptyfields })
       }
     try{
-        const workout =await Workout.create({title,reps,load});
+        const userid = req.user._id;
+        const workout =await Workout.create({title,reps,load,userid});
         res.status(200).json(workout);
     }
     catch(error){
